@@ -1,0 +1,1415 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="프로젝트 자료 기반 K-스킨케어 시장·생산·수출·브랜드와 ODM 산업 분석 대시보드">
+<title>K-Skincare Intelligence | 산업 분석 대시보드</title>
+<style>
+:root{
+  --bg:#f7f9fc;
+  --ink:#17324d;
+  --muted:#526579;
+  --line:#dce5ee;
+  --blue:#247db9;
+  --pink:#df7187;
+  --teal:#157b72;
+  --card:#fff;
+  --soft:#edf5fc;
+  --orange:#91521e;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:28px}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font:16px/1.65 "Pretendard GOV",Pretendard,"Noto Sans KR",
+       "Malgun Gothic",system-ui,sans-serif;
+}
+button,input,select{font:inherit}
+button,a,input,select,summary{-webkit-tap-highlight-color:transparent}
+button,a{touch-action:manipulation}
+a{color:inherit}
+button,select,summary{cursor:pointer}
+button{color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,
+select:focus-visible,summary:focus-visible{
+  outline:3px solid #145fcc;
+  outline-offset:4px;
+}
+button{
+  min-height:44px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#fff;
+  padding:8px 14px;
+}
+button:hover{background:var(--soft)}
+button[aria-pressed=true]{
+  background:var(--ink);
+  color:#fff;
+  border-color:var(--ink);
+}
+svg.icon{
+  width:24px;
+  height:24px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.6;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  flex-shrink:0;
+}
+.skip{
+  position:fixed;
+  top:-100px;
+  left:16px;
+  z-index:10;
+  background:#fff;
+  padding:12px;
+}
+.skip:focus{top:12px}
+.sidebar{
+  width:224px;
+  position:fixed;
+  inset:0 auto 0 0;
+  background:white;
+  border-right:1px solid var(--line);
+  padding:36px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:32px;
+}
+.brand{
+  text-decoration:none;
+  font-size:20px;
+  font-weight:800;
+  line-height:1.3;
+  letter-spacing:-.6px;
+}
+.brand span{
+  display:block;
+  color:var(--blue);
+  font-size:13px;
+  letter-spacing:1.4px;
+  margin-top:10px;
+}
+nav{display:grid;gap:6px}
+nav a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:9px;
+  text-decoration:none;
+  font-size:15px;
+  color:var(--muted);
+}
+nav a:hover,nav a[aria-current=location]{
+  background:var(--soft);
+  color:#176ba5;
+  font-weight:700;
+}
+.side-note{margin-top:auto;font-size:13px;color:var(--muted)}
+main{
+  margin-left:224px;
+  max-width:1600px;
+  padding:32px 40px 60px;
+}
+.topbar,.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.topbar{
+  padding-bottom:24px;
+  border-bottom:1px solid var(--line);
+  font-size:14px;
+  color:var(--muted);
+}
+.action{display:inline-flex;align-items:center;gap:8px}
+.primary{background:var(--ink);color:white}
+.eyebrow{
+  color:var(--blue);
+  font-size:13px;
+  letter-spacing:1.5px;
+  font-weight:750;
+  margin:0 0 8px;
+}
+h1{
+  font-size:clamp(28px,3vw,38px);
+  line-height:1.3;
+  letter-spacing:-1.2px;
+  margin:0 0 12px;
+}
+h2{
+  font-size:24px;
+  line-height:1.4;
+  letter-spacing:-.6px;
+  margin:0;
+}
+h3{font-size:17px;margin:0 0 8px;line-height:1.5}
+p{margin:8px 0 16px}
+.muted,.meta{color:var(--muted)}
+.meta{font-size:13px;margin:12px 0 0}
+.intro{padding:34px 0 24px}
+.intro p{max-width:740px;color:var(--muted)}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+select,input{
+  border:1px solid #aabac9;
+  border-radius:8px;
+  background:white;
+  color:var(--ink);
+  min-height:44px;
+  padding:8px 12px;
+  max-width:100%;
+}
+select{padding-right:36px}
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+.kpi{
+  text-decoration:none;
+  padding:22px 20px;
+  background:#edf5fc;
+  border-radius:12px;
+  border:1px solid transparent;
+  min-width:0;
+}
+.kpi:nth-child(2){background:#fff0f3}
+.kpi:nth-child(3){background:#ecf6f2}
+.kpi:nth-child(4){background:#f1f1f6}
+.kpi:hover{border-color:var(--blue)}
+.kpi span{display:block;font-size:14px}
+.kpi strong{
+  display:block;
+  font-size:clamp(23px,2.5vw,32px);
+  line-height:1.4;
+  margin:12px 0 6px;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.7px;
+}
+.kpi small{display:block;color:var(--muted);font-size:13px}
+.notice{
+  border-left:3px solid var(--blue);
+  padding:12px 16px;
+  background:var(--soft);
+  font-size:14px;
+  margin:20px 0;
+}
+.notice.warn{
+  border-color:#bf8046;
+  background:#fff6ec;
+  color:#774419;
+}
+section{margin-top:42px;scroll-margin-top:24px}
+.section-head{margin-bottom:20px}
+.section-head p{color:var(--muted);margin:6px 0 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:24px;
+  min-width:0;
+}
+.wide{grid-column:1/-1}
+.soft{background:#f8fafc}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tabs button{font-size:14px}
+.chart-scroll{overflow-x:auto;margin-top:20px}
+.chart{display:block;width:100%;min-width:440px;height:auto}
+.chart text{
+  font-family:inherit;
+  fill:var(--muted);
+  font-size:14px;
+}
+.legend{
+  font-size:14px;
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.legend span{display:inline-flex;gap:8px;align-items:center}
+.line-key{width:24px;border-top:3px solid var(--blue)}
+.line-key.dashed{border-top-style:dashed;border-color:#667f9a}
+.chart-point{cursor:pointer}
+.chart-point:focus{outline:none;stroke:#172e47;stroke-width:4}
+.chart-info{
+  min-height:52px;
+  font-size:14px;
+  padding:10px 12px;
+  background:#f1f6fa;
+  border-radius:8px;
+  margin-top:12px;
+}
+.tag{
+  display:inline-block;
+  border-radius:5px;
+  padding:2px 8px;
+  background:#e7f0fa;
+  color:#285b86;
+  font-size:13px;
+}
+.tag.warn{background:#fff0df;color:#874b18}
+.tag.forecast{background:#eef0f6;color:#465e7b}
+.value{font-variant-numeric:tabular-nums;font-size:28px;font-weight:750}
+.flow{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  list-style:none;
+  padding:0;
+  counter-reset:step;
+}
+.flow li{
+  background:var(--soft);
+  border:1px solid #d6e5f1;
+  border-radius:10px;
+  padding:16px;
+  counter-increment:step;
+}
+.flow li:before{
+  content:counter(step)"단계";
+  display:block;
+  color:#38688f;
+  font-size:13px;
+  margin-bottom:6px;
+}
+.flow strong{display:block}
+.mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.mini{border-radius:10px;padding:18px;background:#f4f7fa}
+.mini p{font-size:14px;margin:6px 0}
+.brands{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+details{border-top:1px solid var(--line);padding:12px 0}
+summary{min-height:44px;padding:8px 0;font-weight:650}
+details p{font-size:14px;color:var(--muted);margin:8px 0}
+.brands details{
+  border:1px solid var(--line);
+  padding:12px 16px;
+  border-radius:10px;
+}
+.strategy{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.strategy article{border-top:3px solid #8bbbdc}
+.strategy p{font-size:15px}
+.strategy small{font-size:13px;color:var(--muted)}
+.table-wrap{
+  overflow:auto;
+  max-height:510px;
+  margin-top:16px;
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+table{
+  border-collapse:collapse;
+  width:100%;
+  font-size:14px;
+  white-space:normal;
+}
+th,td{
+  text-align:left;
+  vertical-align:top;
+  padding:12px 14px;
+  border-bottom:1px solid var(--line);
+}
+th{background:#eff4f8;position:sticky;top:0;z-index:1}
+td:nth-child(3){white-space:nowrap;font-variant-numeric:tabular-nums}
+.table-wrap table{min-width:780px}
+caption{text-align:left;padding:12px;font-weight:700}
+footer{
+  margin-top:40px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  font-size:13px;
+  color:var(--muted);
+}
+.source-list{padding-left:20px;font-size:14px;overflow-wrap:anywhere}
+.source-list li{margin:10px 0}
+.empty{text-align:center;padding:32px;color:var(--muted)}
+[hidden]{display:none!important}
+@media(min-width:1700px){
+  main{margin-right:auto}
+}
+@media(max-width:1150px){
+  main{padding:28px 24px;margin-left:194px}
+  .sidebar{width:194px;padding:28px 14px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .mini-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:780px){
+  html{scroll-padding-top:90px}
+  .sidebar{
+    position:sticky;
+    top:0;
+    width:auto;
+    z-index:5;
+    padding:12px 16px;
+    gap:10px;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+  .brand{font-size:17px}
+  .brand span,.side-note{display:none}
+  nav{display:flex;overflow:auto;gap:4px}
+  nav a{white-space:nowrap;padding:8px 10px;font-size:14px}
+  nav .icon{display:none}
+  main{margin:0;padding:20px 16px 40px}
+  .topbar{padding-bottom:16px}
+  .grid,.strategy{grid-template-columns:1fr}
+  .card{padding:20px}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .brands{grid-template-columns:1fr}
+  .intro{padding-top:24px}
+  section{scroll-margin-top:125px}
+  .kpi{padding:18px 14px}
+  .kpi strong{font-size:25px}
+  .kpis{gap:12px}
+}
+@media(max-width:400px){
+  .kpis,.mini-grid,.flow{grid-template-columns:1fr}
+  .controls{align-items:stretch;flex-direction:column}
+  .controls select,.controls input{width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+@media print{
+  .sidebar,.topbar button,.controls,.tabs{display:none}
+  main{margin:0;padding:0}
+  .card{break-inside:avoid}
+  .table-wrap{max-height:none;overflow:visible}
+  .chart{min-width:0}
+  body{background:white}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">본문 바로가기</a>
+
+<svg aria-hidden="true"
+     style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <symbol id="overview" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+    </symbol>
+    <symbol id="trend" viewBox="0 0 24 24">
+      <path d="M3 3v18h18M6 15l5-5 4 3 6-8"/>
+    </symbol>
+    <symbol id="people" viewBox="0 0 24 24">
+      <circle cx="9" cy="7" r="3"/>
+      <path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6M21 21v-3a6 6 0 0 0-4-5"/>
+    </symbol>
+    <symbol id="shop" viewBox="0 0 24 24">
+      <path d="M3 10l2-6h14l2 6M4 10v11h16V10M9 21v-7h6v7M3 10h18"/>
+    </symbol>
+    <symbol id="shield" viewBox="0 0 24 24">
+      <path d="M12 3l8 3v6c0 5-8 9-8 9s-8-4-8-9V6zM8 12l3 3 5-6"/>
+    </symbol>
+    <symbol id="data" viewBox="0 0 24 24">
+      <ellipse cx="12" cy="5" rx="8" ry="3"/>
+      <path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/>
+    </symbol>
+    <symbol id="download" viewBox="0 0 24 24">
+      <path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<aside class="sidebar">
+  <a class="brand" href="#overview-section">
+    K-SKINCARE
+    <span>INDUSTRY INTELLIGENCE</span>
+  </a>
+  <nav aria-label="주요 섹션">
+    <a href="#overview-section" aria-current="location">
+      <svg class="icon" aria-hidden="true"><use href="#overview"/></svg>
+      산업 현황
+    </a>
+    <a href="#market">
+      <svg class="icon" aria-hidden="true"><use href="#trend"/></svg>
+      시장과 성장
+    </a>
+    <a href="#odm">
+      <svg class="icon" aria-hidden="true"><use href="#people"/></svg>
+      브랜드 × ODM
+    </a>
+    <a href="#channels">
+      <svg class="icon" aria-hidden="true"><use href="#shop"/></svg>
+      유통과 소비자
+    </a>
+    <a href="#strategy">
+      <svg class="icon" aria-hidden="true"><use href="#shield"/></svg>
+      리스크와 전략
+    </a>
+    <a href="#sources">
+      <svg class="icon" aria-hidden="true"><use href="#data"/></svg>
+      데이터와 출처
+    </a>
+  </nav>
+  <div class="side-note">
+    AI 2 (주말) 261031<br>
+    프로젝트 자료 기반 분석<br>
+    2024–2026 중심 · 2028 전망
+  </div>
+</aside>
+
+<main id="content" tabindex="-1">
+  <div class="topbar">
+    <span>산업 리서치 / K-스킨케어</span>
+    <button class="action" id="export-top">
+      <svg class="icon" aria-hidden="true"><use href="#download"/></svg>
+      조회 데이터 CSV
+    </button>
+  </div>
+
+  <section id="overview-section" style="margin-top:0">
+    <div class="intro">
+      <p class="eyebrow">K-SKINCARE INDUSTRY DASHBOARD</p>
+      <h1>성장의 흐름, 산업의 연결.</h1>
+      <p>
+        내수 시장에서 글로벌 수출까지, 인디 브랜드와 ODM이 함께 만드는
+        K-스킨케어의 성장 구조를 살펴봅니다.
+      </p>
+      <div class="controls">
+        <label for="kpi-year">핵심 지표 기준연도</label>
+        <select id="kpi-year">
+          <option>2024</option>
+          <option selected>2025</option>
+          <option>2026</option>
+          <option>2027</option>
+          <option>2028</option>
+        </select>
+        <span class="meta" style="margin:0">
+          각 카드에서 집계 범위와 상태를 확인하세요.
+        </span>
+      </div>
+    </div>
+    <div class="kpis" id="kpis" aria-live="polite"></div>
+    <div class="notice">
+      내수·생산·수출은 측정 범위가 서로 다릅니다.
+      동반 성장은 이익의 균등한 증가를 보장하지 않습니다.
+    </div>
+  </section>
+
+  <section id="market">
+    <div class="section-head">
+      <p class="eyebrow">MARKET & GROWTH</p>
+      <h2>시장은 어디에서 성장하는가</h2>
+      <p>시간에 따른 변화를 확인하고, 연간 실적과 전망을 함께 읽습니다.</p>
+    </div>
+    <div class="grid">
+      <article class="card wide">
+        <div class="row">
+          <h3 id="main-title">국내 기초 스킨케어 시장 규모</h3>
+          <div class="tabs" aria-label="주요 차트 선택">
+            <button data-series="market" aria-pressed="true">내수 시장</button>
+            <button data-series="production" aria-pressed="false">전체 생산</button>
+            <button data-series="export" aria-pressed="false">전체 수출</button>
+          </div>
+        </div>
+        <div id="main-chart"></div>
+        <div class="legend">
+          <span><i class="line-key"></i>실적·집계</span>
+          <span><i class="line-key dashed"></i>추정·전망</span>
+        </div>
+        <div class="chart-info" id="chart-info" role="status">
+          차트의 점에 마우스를 올리거나 키보드로 선택하면
+          수치와 출처를 확인할 수 있습니다.
+        </div>
+        <p class="meta" id="main-note"></p>
+      </article>
+
+      <article class="card">
+        <h3>기초화장용 생산액</h3>
+        <p class="muted">전체 화장품 중 기초화장용 제품</p>
+        <div id="basic-chart"></div>
+        <details>
+          <summary>데이터 표와 출처</summary>
+          <p>
+            2024년 10조 2,961억 원 / 2025년 10조 3,177억 원.
+            엑셀 ‘정량 데이터’ 16행.
+            전년 대비 변화율은 원자료 확인 필요 항목을 참고하세요.
+          </p>
+        </details>
+      </article>
+
+      <article class="card soft">
+        <h3>2028년 국내 기초 시장 전망</h3>
+        <p class="value">
+          9.70조 원 <span class="tag forecast">전망</span>
+        </p>
+        <p>
+          2024년 8.60조 원을 출발점으로 원자료 표에 제시된
+          완만한 성장 경로입니다.
+        </p>
+        <p class="meta">
+          조사자료 §1.2 · 엑셀 ‘정량 데이터’ 26행<br>
+          시장 전망은 향후 실적에 따라 달라질 수 있습니다.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="odm">
+    <div class="section-head">
+      <p class="eyebrow">BRAND × ODM</p>
+      <h2>기획과 제조가 만나는 성장 구조</h2>
+      <p>등록 업체 수의 변화와 브랜드–ODM 분업 모형을 함께 살펴봅니다.</p>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <h3>제조업체 수</h3>
+        <div id="manufacturer-chart"></div>
+      </article>
+      <article class="card">
+        <h3>책임판매업체 수</h3>
+        <div id="seller-chart"></div>
+      </article>
+
+      <article class="card wide">
+        <h3>브랜드–ODM 협업과 피드백</h3>
+        <ol class="flow">
+          <li>
+            <strong>소비자 반응 파악</strong>
+            피부 고민·후기·수요 탐색
+          </li>
+          <li>
+            <strong>브랜드 제품 기획</strong>
+            타깃·성분·제품 방향 설정
+          </li>
+          <li>
+            <strong>ODM 개발·생산</strong>
+            제형·품질·제조 역량 연결
+          </li>
+          <li>
+            <strong>브랜드 마케팅·유통</strong>
+            채널 운영과 고객 접점 확보
+          </li>
+          <li>
+            <strong>판매 확대·재발주</strong>
+            반복 수주와 공급 대응
+          </li>
+          <li>
+            <strong>고객 피드백 축적</strong>
+            다음 제품 기획에 환류
+          </li>
+        </ol>
+        <p class="meta">
+          조사자료 §2.2를 바탕으로 구성한 분석적 모형.
+          업체 수 변화만으로 ODM 의존도나 기업별 인과효과를
+          입증할 수 없습니다.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <h3>브랜드의 수익성 변수</h3>
+            <p>
+              광고비·채널 수수료·재고 부담이
+              매출 성장과 함께 커질 수 있습니다.
+            </p>
+          </div>
+          <div class="mini">
+            <h3>ODM의 수익성 변수</h3>
+            <p>
+              고객 다변화·가동률 효과와 고객 집중·가격 압박·유휴설비
+              위험을 함께 검토합니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="brands">
+          <details>
+            <summary>아누아 · 조선미녀</summary>
+            <p>
+              아누아는 성분 중심 제품과 디지털 유통, 조선미녀는
+              선케어 중심 글로벌 확장 사례입니다.
+              조사자료 §2.1·§4.1.
+              기업별 회계 범위가 달라 통합 매출 순위로 해석하지 않습니다.
+            </p>
+          </details>
+          <details>
+            <summary>스킨1004 · 바이오던스</summary>
+            <p>
+              스킨1004는 병풀 기반 스킨케어, 바이오던스는 하이드로겔
+              마스크와 해외 유통 확장 사례입니다. 조사자료 §2.1.
+            </p>
+          </details>
+          <details>
+            <summary>한국콜마 · 코스맥스</summary>
+            <p>
+              연구개발·제형 설계·품질·생산을 연결하는 ODM 사례입니다.
+              조사자료 §2.2.
+              모든 브랜드와 동일한 거래 관계를 뜻하지 않습니다.
+            </p>
+          </details>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="channels">
+    <div class="section-head">
+      <p class="eyebrow">CHANNELS & CONSUMERS</p>
+      <h2>구매 접점과 성분 관심의 세분화</h2>
+      <p>채널별 역할과 플랫폼별 변화율을 각각의 기준으로 비교합니다.</p>
+    </div>
+
+    <div class="mini-grid">
+      <article class="mini">
+        <h3>온라인·이커머스</h3>
+        <p>후기·비교·배송</p>
+        <p class="muted">재구매와 디지털 고객 접점</p>
+      </article>
+      <article class="mini">
+        <h3>올리브영</h3>
+        <p>발견·큐레이션</p>
+        <p class="muted">기능성·더마 제품 탐색</p>
+      </article>
+      <article class="mini">
+        <h3>다이소</h3>
+        <p>저가·소용량</p>
+        <p class="muted">시험 구매의 진입 장벽 완화</p>
+      </article>
+      <article class="mini">
+        <h3>약국</h3>
+        <p>성분 신뢰·더마 접점</p>
+        <p class="muted">제약사 배경 제품·관광 수요</p>
+      </article>
+    </div>
+    <p class="meta">조사자료 §3 · 설명용 채널 역할 구분</p>
+
+    <div class="grid" style="margin-top:20px">
+      <article class="card">
+        <h3>올리브영 별도 매출</h3>
+        <div id="channel-chart"></div>
+        <p class="meta">
+          전체 별도 매출 · 기초 스킨케어에 한정된 매출이 아닙니다.
+        </p>
+        <details>
+          <summary>다이소 뷰티 증가율 보기</summary>
+          <p>
+            2024년 +144%, 2025년 +70%.
+            매출 증가율이며 올리브영의 매출액과 단위를 구분합니다.
+            엑셀 ‘정량 데이터’ 54행.
+          </p>
+        </details>
+      </article>
+
+      <article class="card">
+        <h3>PDRN 키워드 제품 수 증가율</h3>
+        <span class="tag">2026년 상반기 · 전년 동기 대비</span>
+        <div id="ingredient-chart"></div>
+        <p class="meta">
+          엑셀 ‘정량 데이터’ 64행 · 플랫폼별 모집단이 다릅니다.
+          제품 수 증가는 매출 증가나 효능 입증을 뜻하지 않습니다.
+        </p>
+      </article>
+
+      <article class="card wide">
+        <h3>소비 관심과 적용 영역</h3>
+        <div class="mini-grid">
+          <div class="mini">
+            <h3>10대</h3>
+            <p>트러블·톤 관심</p>
+          </div>
+          <div class="mini">
+            <h3>20–30대</h3>
+            <p>모공 중심 관심</p>
+          </div>
+          <div class="mini">
+            <h3>40–50대</h3>
+            <p>주름·탄력 관심</p>
+          </div>
+          <div class="mini">
+            <h3>카테고리 확장</h3>
+            <p>페이셜에서 두피·헤어·바디와 홈케어로</p>
+          </div>
+        </div>
+        <p class="meta">
+          조사자료 §3·§4의 정성적 요약.
+          연령별 전체 소비자를 대표하는 확정 통계로 해석하지 않습니다.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="strategy">
+    <div class="section-head">
+      <p class="eyebrow">RISKS & STRATEGY</p>
+      <h2>성장을 지속하기 위한 준비</h2>
+      <p>자료에 제시된 규제 대응 과제와 네 가지 전략 축입니다.</p>
+    </div>
+
+    <div class="card">
+      <h3>규제 대응 일정·과제</h3>
+      <div class="mini-grid">
+        <div class="mini">
+          <span class="tag warn">미국 · 확인 필요</span>
+          <h3>MoCRA</h3>
+          <p>시설 등록·제품 리스팅·안전성 근거 관리 검토</p>
+        </div>
+        <div class="mini">
+          <span class="tag warn">EU · 2025–2027</span>
+          <h3>비타민 A</h3>
+          <p>신규 출시·유통 제한의 적용 대상과 유예기간 확인</p>
+        </div>
+        <div class="mini">
+          <span class="tag warn">EU · 2026 이후</span>
+          <h3>포장재 PPWR</h3>
+          <p>단계별 적용 시점과 제품별 의무 확인</p>
+        </div>
+        <div class="mini">
+          <span class="tag warn">공개 전 점검</span>
+          <h3>원문 법령 검증</h3>
+          <p>조사자료 §5에 기재된 일정·예외·적용 범위 재확인</p>
+        </div>
+      </div>
+      <p class="meta">
+        프로젝트 소스의 대응 과제를 정리했습니다.
+        최신 법령 검증은 별도로 필요합니다.
+      </p>
+    </div>
+
+    <div class="strategy" style="margin-top:20px">
+      <article class="card">
+        <h3>제품 차별화</h3>
+        <p>
+          고기능 성분과 장벽 케어 관심을 바탕으로
+          효능 근거·제형·사용감을 정교화합니다.
+        </p>
+        <small>제안 측정 지표 · 재구매율 / 반품률 / 품질 이슈율</small>
+      </article>
+      <article class="card">
+        <h3>채널 최적화</h3>
+        <p>
+          채널별 가격·용량·구성을 설계하고
+          전환과 수익성을 함께 관리합니다.
+        </p>
+        <small>제안 측정 지표 · 채널별 공헌이익 / 전환율</small>
+      </article>
+      <article class="card">
+        <h3>ODM·규제 역량</h3>
+        <p>
+          공동개발·품질·규제 대응 체계를 연결해
+          제조 파트너십을 강화합니다.
+        </p>
+        <small>제안 측정 지표 · 반복 발주율 / 납기준수율</small>
+      </article>
+      <article class="card">
+        <h3>카테고리 확장</h3>
+        <p>
+          두피·바디·디바이스·애프터케어 등
+          인접 수요를 검토합니다.
+        </p>
+        <small>제안 측정 지표 · 신규 카테고리 매출비중 / 고객 유지율</small>
+      </article>
+    </div>
+    <p class="meta">
+      기획안 §3.5 · 조사자료의 전략 내용을 재구성했습니다.
+      제안 측정 지표의 현재 실적값은 확보되지 않았습니다.
+    </p>
+  </section>
+
+  <section id="sources">
+    <div class="section-head">
+      <p class="eyebrow">DATA & SOURCES</p>
+      <h2>숫자의 기준까지 확인하기</h2>
+      <p>대시보드에 사용한 주요 관측값을 검색하고 내려받을 수 있습니다.</p>
+    </div>
+
+    <div class="card">
+      <div class="controls">
+        <label for="search">지표 검색</label>
+        <input id="search" type="search"
+               placeholder="예: 수출, 올리브영" maxlength="100">
+
+        <label for="data-year">연도</label>
+        <select id="data-year">
+          <option value="">전체</option>
+          <option>2022</option>
+          <option>2023</option>
+          <option>2024</option>
+          <option>2025</option>
+          <option>2026</option>
+          <option>2027</option>
+          <option>2028</option>
+        </select>
+
+        <label for="data-status">자료 상태</label>
+        <select id="data-status">
+          <option value="">전체</option>
+          <option>실적·집계</option>
+          <option>추정·전망</option>
+          <option>기간 한정</option>
+        </select>
+
+        <button id="export" class="action">
+          <svg class="icon" aria-hidden="true"><use href="#download"/></svg>
+          CSV 다운로드
+        </button>
+      </div>
+
+      <p id="count" role="status" class="meta"></p>
+      <div class="table-wrap" tabindex="0" role="region"
+           aria-label="주요 관측값 표, 가로 스크롤 가능">
+        <table>
+          <caption>주요 지표 · 엑셀 ‘정량 데이터’ 원문 행 기준</caption>
+          <thead>
+            <tr>
+              <th scope="col">지표</th>
+              <th scope="col">기간</th>
+              <th scope="col">값</th>
+              <th scope="col">상태</th>
+              <th scope="col">범위·기준</th>
+              <th scope="col">출처 위치</th>
+            </tr>
+          </thead>
+          <tbody id="data-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="notice warn">
+      <strong>원자료 확인이 필요한 항목 5개</strong>
+      <details>
+        <summary>불일치와 분모 확인 내용 펼치기</summary>
+        <p>
+          ① 2024년 기초화장용 생산 증가율 +30.2%는
+          연도별 생산액으로 계산한 약 +18.9%와 불일치합니다.
+        </p>
+        <p>
+          ② 2025년 더마 스킨케어 비중 17%는
+          제시된 시장 규모로 계산한 약 14.8%와 다릅니다.
+        </p>
+        <p>
+          ③ 2028년 더마 스킨케어 전망은
+          표 1.95조 원과 본문 약 2.3조 원 이상이 상충합니다.
+        </p>
+        <p>
+          ④ 종사자 10명 미만 책임판매업체 88%는
+          적용 분모가 확인되지 않았습니다.
+        </p>
+        <p>
+          ⑤ 2025년 올리브영 점유율 20.2%는
+          매출액·시장 규모의 집계 기준 확인이 필요합니다.
+        </p>
+        <p>
+          엑셀 ‘정량 데이터’ 84–88행.
+          이 항목들은 핵심 지표와 차트에 사용하지 않았습니다.
+        </p>
+      </details>
+    </div>
+
+    <details class="card">
+      <summary>원자료와 디자인 참고 기준</summary>
+      <ul class="source-list">
+        <li>
+          AI 2 _ 1031 _ 자료조사.md · 시장 §1, 기업·ODM §2,
+          채널 §3, 성분·소비 §4, 규제·전략 관련 절.
+        </li>
+        <li>
+          K-스킨케어_정량데이터_차트검수_수정본.xlsx ·
+          ‘정량 데이터’ A–E열의 설명·검수 메모와
+          G–M열의 관측값.
+          출처 행은 M열이 가리키는 원문 위치입니다.
+        </li>
+        <li>
+          K-스킨케어_산업분석_대시보드_페이지기획안(1).md ·
+          정보 구조·차트·전략 구성.
+          참고 이미지 · 파스텔 KPI 카드, 넓은 시계열 차트,
+          하단 비교 카드 배치.
+        </li>
+        <li>
+          KRDS 디자인 스타일 참고 ·
+          <a href="https://www.krds.go.kr/html/site/style/style_06.html"
+             target="_blank" rel="noopener noreferrer">아이콘</a>,
+          <a href="https://www.krds.go.kr/html/site/style/style_03.html"
+             target="_blank" rel="noopener noreferrer">타이포그래피</a>,
+          <a href="https://www.krds.go.kr/html/site/style/style_05.html"
+             target="_blank" rel="noopener noreferrer">레이아웃</a>.
+          24px 아이콘과 일관된 선 두께, 제목 위계,
+          반응형 여백을 참고했습니다.
+        </li>
+      </ul>
+    </details>
+  </section>
+
+  <footer>
+    프로젝트 자료 기반 정적 대시보드 ·
+    외부 원출처의 최신성은 별도 검증 필요 · 실시간 데이터 연동 없음
+  </footer>
+  <noscript>
+    <p class="notice warn">
+      연도별 지표·차트·데이터 검색을 이용하려면
+      JavaScript를 활성화해 주세요.
+    </p>
+  </noscript>
+</main>
+
+<script>
+'use strict';
+
+// 값, 단위, 기간, 범위, 상태 및 엑셀 원문 위치를 함께 보존합니다.
+const records = [];
+
+function add(id, name, years, values, unit, scope, row,
+             status = '실적·집계') {
+  years.forEach((year, i) => records.push({
+    id, name, year: String(year), value: values[i],
+    unit, scope, row, status
+  }));
+}
+
+add(
+  'market', '국내 기초 스킨케어 시장 규모',
+  [2024, 2025], [8.6, 8.86],
+  '조 원', '국내 기초 스킨케어 내수', 6
+);
+add(
+  'market', '국내 기초 스킨케어 시장 규모',
+  [2026, 2027, 2028], [9.13, 9.41, 9.7],
+  '조 원', '국내 기초 스킨케어 내수', 26, '추정·전망'
+);
+add(
+  'production', '국내 화장품 총생산액',
+  [2022, 2023, 2024, 2025], [13.5908, 14.5102, 17.5426, 17.9382],
+  '조 원', '화장품 전체', 15
+);
+add(
+  'basic', '국내 기초화장용 생산액',
+  [2024, 2025], [10.2961, 10.3177],
+  '조 원', '기초화장용 제품', 16
+);
+add(
+  'basic', '국내 기초화장용 생산액',
+  [2026, 2027, 2028], [11.2, 12, 12.8],
+  '조 원', '기초화장용 제품', 29, '추정·전망'
+);
+add(
+  'export', '한국 화장품 총수출액',
+  [2024, 2025], [102, 114],
+  '억 달러', '화장품 전체 · 연간', 21
+);
+add(
+  'export', '한국 화장품 총수출액',
+  [2026, 2027, 2028], [135, 150, 165],
+  '억 달러', '화장품 전체 · 연간', 30, '추정·전망'
+);
+add(
+  'half', '한국 화장품 상반기 수출액',
+  [2026], [70],
+  '억 달러', '화장품 전체 · 상반기', 21, '기간 한정'
+);
+add(
+  'manufacturer', '국내 화장품 제조업체 수',
+  [2024, 2025], [4439, 4158],
+  '개', '등록 제조업체', 42
+);
+add(
+  'seller', '국내 화장품 책임판매업체 수',
+  [2024, 2025], [27932, 28412],
+  '개', '등록 책임판매업체', 42
+);
+add(
+  'olive', 'CJ올리브영 별도 매출액',
+  [2022, 2023, 2024, 2025], [2.7774, 3.8611, 4.7899, 5.8335],
+  '조 원', 'CJ올리브영 전체 별도 매출', 49
+);
+add(
+  'daiso', '다이소 뷰티 매출 증가율',
+  [2024, 2025], [144, 70],
+  '%', '전년 대비 · 뷰티 매출', 54
+);
+add(
+  'pdrn-olive', 'PDRN 키워드 제품 수 증가율',
+  [2026], [115],
+  '%', '올리브영 · 상반기 전년 동기 대비', 64, '기간 한정'
+);
+add(
+  'pdrn-amazon', 'PDRN 키워드 제품 수 증가율',
+  [2026], [296],
+  '%', '미국 아마존 · 상반기 전년 동기 대비', 64, '기간 한정'
+);
+
+const $ = id => document.getElementById(id);
+
+const number = value => new Intl.NumberFormat('ko-KR', {
+  maximumFractionDigits: 4
+}).format(value);
+
+const valueText = record => number(record.value) + record.unit;
+const series = id => records.filter(record => record.id === id);
+
+function kpis() {
+  const year = $('kpi-year').value;
+  const items = [
+    ['market', '국내 기초 시장', '#market'],
+    ['basic', '기초화장용 생산', '#market'],
+    ['export', '화장품 전체 수출', '#market'],
+    ['seller', '책임판매업체', '#odm']
+  ];
+
+  $('kpis').replaceChildren(...items.map(([id, label, href]) => {
+    const record = series(id).find(item => item.year === year);
+    const card = document.createElement('a');
+    card.href = href;
+    card.className = 'kpi';
+
+    const title = document.createElement('span');
+    title.textContent = label;
+
+    const value = document.createElement('strong');
+    value.textContent = record ? valueText(record) : '데이터 없음';
+
+    const note = document.createElement('small');
+    note.textContent =
+      year + '년 · ' + (record ? record.status : '원자료 미확보');
+
+    const scope = document.createElement('small');
+    scope.textContent = record
+      ? record.scope
+      : '해당 연도의 관측값이 없습니다.';
+
+    card.append(title, value, note, scope);
+    return card;
+  }));
+}
+
+const ns = 'http://www.w3.org/2000/svg';
+
+function svgElement(tag, attributes = {}, text = '') {
+  const element = document.createElementNS(ns, tag);
+  Object.entries(attributes).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  if (text) element.textContent = text;
+  return element;
+}
+
+function chart(container, rows, kind = 'bar', interactive = false) {
+  const host = $(container);
+  host.replaceChildren();
+
+  const wrap = document.createElement('div');
+  wrap.className = 'chart-scroll';
+
+  const svg = svgElement('svg', {
+    viewBox: '0 0 640 280',
+    class: 'chart',
+    role: 'img',
+    'aria-label': rows.map(record =>
+      record.year + '년 ' + record.name + ' ' +
+      valueText(record) + ' ' + record.status
+    ).join(', ')
+  });
+
+  svg.append(svgElement(
+    'title', {}, rows[0].name + ' (' + rows[0].unit + ')'
+  ));
+
+  const max = Math.max(...rows.map(record => record.value)) * 1.2;
+  const x = index => 72 + index * (532 / Math.max(rows.length - 1, 1));
+  const y = value => 228 - value / max * 182;
+
+  for (let index = 0; index <= 4; index++) {
+    const yy = y(max * index / 4);
+
+    svg.append(svgElement('line', {
+      x1: 64, y1: yy, x2: 612, y2: yy, stroke: '#dce5ee'
+    }));
+
+    svg.append(svgElement('text', {
+      x: 54, y: yy + 5, 'text-anchor': 'end'
+    }, new Intl.NumberFormat('ko-KR', {
+      maximumFractionDigits: 1
+    }).format(max * index / 4)));
+  }
+
+  svg.append(svgElement('text', {
+    x: 64, y: 20
+  }, '단위 · ' + rows[0].unit));
+
+  rows.forEach((record, index) => {
+    const xx = kind === 'bar'
+      ? 96 + index * (480 / rows.length) + 240 / rows.length
+      : x(index);
+
+    if (kind === 'line' && index > 0) {
+      svg.append(svgElement('line', {
+        x1: x(index - 1),
+        y1: y(rows[index - 1].value),
+        x2: xx,
+        y2: y(record.value),
+        stroke: record.status === '추정·전망' ? '#667f9a' : '#247db9',
+        'stroke-width': 3,
+        'stroke-dasharray':
+          record.status === '추정·전망' ? '7 6' : ''
+      }));
+    }
+
+    const node = kind === 'bar'
+      ? svgElement('rect', {
+          x: xx - 27,
+          y: y(record.value),
+          width: 54,
+          height: 228 - y(record.value),
+          rx: 6,
+          fill: ['#9bcae8', '#efb1be', '#76bbae', '#9daec8'][index % 4]
+        })
+      : svgElement('circle', {
+          cx: xx,
+          cy: y(record.value),
+          r: 6,
+          fill: record.status === '추정·전망' ? '#fff' : '#247db9',
+          stroke: '#466d91',
+          'stroke-width': 2
+        });
+
+    const detail =
+      `${record.year}년 · ${record.name} ${valueText(record)} · ` +
+      `${record.status} · ${record.scope} · ` +
+      `엑셀 ‘정량 데이터’ ${record.row}행`;
+
+    node.append(svgElement('title', {}, detail));
+
+    if (interactive) {
+      node.setAttribute('tabindex', '0');
+      node.setAttribute('class', 'chart-point');
+      node.setAttribute('aria-label', detail);
+
+      ['pointerenter', 'focus', 'click'].forEach(event => {
+        node.addEventListener(event, () => {
+          $('chart-info').textContent = detail;
+        });
+      });
+    }
+
+    svg.append(node);
+    svg.append(svgElement('text', {
+      x: xx, y: 255, 'text-anchor': 'middle'
+    }, record.year + '년'));
+
+    if (kind === 'bar') {
+      svg.append(svgElement('text', {
+        x: xx, y: y(record.value) - 10, 'text-anchor': 'middle'
+      }, number(record.value)));
+    }
+  });
+
+  wrap.append(svg);
+  host.append(wrap);
+}
+
+function mainChart(id) {
+  const rows = series(id);
+  $('main-title').textContent = rows[0].name;
+  chart('main-chart', rows, 'line', true);
+
+  $('main-note').textContent =
+    '자료 범위 · ' + rows[0].scope +
+    ' | 출처 · 엑셀 ‘정량 데이터’ ' +
+    [...new Set(rows.map(record => record.row))].join('·') +
+    '행. 2025년 시장 규모는 원문 표의 실적/집계 열 수치입니다.';
+
+  $('chart-info').textContent =
+    '차트의 점에 마우스를 올리거나 키보드로 선택하면 ' +
+    '수치와 출처를 확인할 수 있습니다.';
+
+  document.querySelectorAll('[data-series]').forEach(button => {
+    button.setAttribute(
+      'aria-pressed', String(button.dataset.series === id)
+    );
+  });
+}
+
+function ingredientChart() {
+  const host = $('ingredient-chart');
+
+  [['올리브영', 115], ['미국 아마존', 296]].forEach(([label, value]) => {
+    const block = document.createElement('div');
+    block.style.margin = '24px 0';
+
+    const line = document.createElement('div');
+    line.className = 'row';
+
+    const name = document.createElement('span');
+    name.textContent = label;
+
+    const strong = document.createElement('strong');
+    strong.textContent = '+' + value + '%';
+    line.append(name, strong);
+
+    const bar = document.createElement('div');
+    bar.style.cssText =
+      'height:18px;background:#edf2f7;' +
+      'border-radius:5px;margin-top:8px';
+
+    const fill = document.createElement('div');
+    fill.style.cssText =
+      `height:100%;width:${value / 300 * 100}%;` +
+      `background:${value === 115 ? '#98c5e4' : '#eaa3b5'};` +
+      'border-radius:5px';
+
+    bar.append(fill);
+    block.append(line, bar);
+    host.append(block);
+  });
+}
+
+function filtered() {
+  const query = $('search').value.trim().toLocaleLowerCase('ko');
+
+  return records.filter(record =>
+    (!$('data-year').value || record.year === $('data-year').value) &&
+    (!$('data-status').value || record.status === $('data-status').value) &&
+    [record.name, record.scope, record.year, record.status]
+      .join(' ')
+      .toLocaleLowerCase('ko')
+      .includes(query)
+  );
+}
+
+function table() {
+  const rows = filtered();
+
+  $('count').textContent =
+    `전체 ${records.length}개 관측값 중 ${rows.length}개 표시 · ` +
+    'CSV는 현재 검색·필터 결과를 저장합니다.';
+
+  $('data-body').replaceChildren(...rows.map(record => {
+    const tr = document.createElement('tr');
+
+    [
+      record.name,
+      record.year + '년',
+      valueText(record),
+      record.status,
+      record.scope,
+      '정량 데이터 ' + record.row + '행'
+    ].forEach(value => {
+      const td = document.createElement('td');
+      td.textContent = value;
+      tr.append(td);
+    });
+
+    return tr;
+  }));
+
+  if (!rows.length) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 6;
+    td.className = 'empty';
+    td.textContent =
+      '조건에 맞는 데이터가 없습니다. 검색어나 필터를 바꿔 주세요.';
+    tr.append(td);
+    $('data-body').append(tr);
+  }
+}
+
+function exportCSV() {
+  const rows = [
+    ['지표', '기간', '값', '단위', '상태', '범위', '출처 파일', '출처 위치'],
+    ...filtered().map(record => [
+      record.name,
+      record.year,
+      record.value,
+      record.unit,
+      record.status,
+      record.scope,
+      'K-스킨케어_정량데이터_차트검수_수정본.xlsx',
+      '정량 데이터 ' + record.row + '행'
+    ])
+  ];
+
+  const csv = '\ufeff' + rows.map(row =>
+    row.map(value =>
+      '"' + String(value).replaceAll('"', '""') + '"'
+    ).join(',')
+  ).join('\r\n');
+
+  const url = URL.createObjectURL(new Blob([csv], {
+    type: 'text/csv;charset=utf-8;'
+  }));
+
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = 'K-skincare-data.csv';
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+$('kpi-year').addEventListener('change', kpis);
+
+['search', 'data-year', 'data-status'].forEach(id => {
+  $(id).addEventListener(id === 'search' ? 'input' : 'change', table);
+});
+
+$('export').addEventListener('click', exportCSV);
+$('export-top').addEventListener('click', exportCSV);
+
+document.querySelectorAll('[data-series]').forEach(button => {
+  button.addEventListener('click', () => mainChart(button.dataset.series));
+});
+
+const navLinks = [...document.querySelectorAll('nav a')];
+
+const observer = new IntersectionObserver(entries => {
+  const visible = entries
+    .filter(entry => entry.isIntersecting)
+    .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+  if (!visible.length) return;
+
+  navLinks.forEach(link => {
+    if (link.hash === '#' + visible[0].target.id) {
+      link.setAttribute('aria-current', 'location');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
+}, {
+  rootMargin: '-15% 0px -65% 0px',
+  threshold: 0
+});
+
+document.querySelectorAll('main>section').forEach(section => {
+  observer.observe(section);
+});
+
+kpis();
+mainChart('market');
+chart(
+  'basic-chart',
+  series('basic').filter(record => record.status === '실적·집계')
+);
+chart('manufacturer-chart', series('manufacturer'));
+chart('seller-chart', series('seller'));
+chart('channel-chart', series('olive'));
+ingredientChart();
+table();
+</script>
+</body>
+</html>
